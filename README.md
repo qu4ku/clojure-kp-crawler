@@ -1,36 +1,17 @@
-# clojure-kp-crawler
+# Clojure KnowledgeProtocol Crawler
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
+A simple crawler that gets urls to medium posts from https://knowledgeprotocol.com/
 
 ## Usage
 
-FIXME: explanation
+You can run standalone:
 
     $ java -jar clojure-kp-crawler-0.1.0-standalone.jar [args]
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
 
 ## License
 
-Copyright © 2019 FIXME
+Copyright © 2019 
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at

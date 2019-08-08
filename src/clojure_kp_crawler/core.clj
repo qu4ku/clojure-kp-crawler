@@ -12,30 +12,42 @@
   (html/html-snippet
       (:body @(http/get url {:insecure? true}))))
 
-(def body (get-body kp-url))
 
-; (defn get-headers [body]
-;   (map :content (html/select body [:h2.post__title :a :href])))
+(defn generate-pages-to-crawl [num-of-pages]
+  "Generate pages to crawl from 1 to num-of-pages"
+  (let [base "https://knowledgeprotocol.com/?page="
+        nums (range 1 (inc num-of-pages))]
+    (map #(str base %)
+         nums)))
 
-; (defn select-titles [body]
-;   (map :content (html/select body [:h2.post__title :a])))
-
+                         
 (defn select-urls [body]
   "Select articles' urls from provided body."
-  (map #(get-in % [:attrs :href]) (html/select body [:h2.post__title :a])))
+  (map #(get-in % [:attrs :href]) 
+       (html/select body [:h2.post__title :a])))
+
 
 (defn select-medium-urls [hrefs]
   "Return medium posts' urls."
-  (filter #(str/includes? % "medium.com" ) hrefs))
+  (filter #(str/includes? % "medium.com") 
+          hrefs))
 
 
-(defn print-medium-urls []
-  (map println (select-medium-urls (select-urls body))))
+(defn get-medium-urls [num-of-pages]
+  "Gets medium posts from knowledgeprotocol.
+   Gets first num-of-pages posts."
+  (map #(select-medium-urls (select-urls (get-body %)))
+       (generate-pages-to-crawl num-of-pages)))
 
+
+(def urls-test (get-medium-urls 10))
+
+(count urls-test)
+(map println urls-test)
 
 (defn -main
   [& args]
-  (print-medium-urls))
+  (get-medium-urls 10))
 
 
 (-main)
