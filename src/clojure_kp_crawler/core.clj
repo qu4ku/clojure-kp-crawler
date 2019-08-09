@@ -1,7 +1,8 @@
 (ns clojure-kp-crawler.core
   (:require [net.cgrand.enlive-html :as html]
             [org.httpkit.client :as http]
-            [clojure.string :as str]))
+            [clojure.string :as str])
+  (:use [clojure.java.io]))
 
 
 (def kp-url "https://knowledgeprotocol.com/")
@@ -40,14 +41,20 @@
        (generate-pages-to-crawl num-of-pages)))
 
 
-(def urls-test (get-medium-urls 10))
-
+(def urls-test (get-medium-urls 2))
 (count urls-test)
 (map println urls-test)
 
+;; append file
+(defn append-file-with-medium-urls [urls]
+  (with-open [f (writer "data/madium-links.txt" :append true)]
+    (doseq [url urls]
+      (.write f (str (first url) "\n")))))
+
 (defn -main
   [& args]
-  (get-medium-urls 10))
+  (def medium-urls (get-medium-urls 10))
+  (append-file-with-medium-urls medium-urls))
 
 
 (-main)
